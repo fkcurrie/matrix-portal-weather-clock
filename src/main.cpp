@@ -23,6 +23,7 @@
 #include <ArduinoJson.h>
 #include <Fonts/TomThumb.h>
 #include "weather_icons_8x8.h"
+#include "weather_utils.h"
 
 // --- WiFi Setup ---
 #include "secrets.h"
