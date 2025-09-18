@@ -31,6 +31,7 @@
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 const long gmtOffset_sec = -14400; // Toronto is UTC-4 for EDT
+unsigned long last_time_update = 0;
 
 // --- Weather Setup ---
 const char* weather_host = "api.open-meteo.com";
@@ -124,54 +125,61 @@ void setup() {
 }
 
 void loop() {
-  if (millis() - last_weather_update > 60000) {
+  unsigned long current_millis = millis();
+
+  // Update weather every minute
+  if (current_millis - last_weather_update > 60000) {
     fetchWeatherData();
-    last_weather_update = millis();
+    last_weather_update = current_millis;
   }
 
-  timeClient.update();
-  unsigned long epochTime = timeClient.getEpochTime();
-  int hours = (epochTime % 86400L) / 3600;
-  int minutes = (epochTime % 3600) / 60;
-  int seconds = epochTime % 60;
+  // Update and redraw the clock every second
+  if (current_millis - last_time_update > 1000) {
+    last_time_update = current_millis;
+    
+    timeClient.update();
+    unsigned long epochTime = timeClient.getEpochTime();
+    int hours = (epochTime % 86400L) / 3600;
+    int minutes = (epochTime % 3600) / 60;
+    int seconds = epochTime % 60;
 
-  matrix.fillScreen(0);
-  drawClockFace();
+    matrix.fillScreen(0);
+    drawClockFace();
 
-  // --- Draw Weather ---
-  matrix.setFont(&TomThumb);
-  int16_t x1, y1;
-  uint16_t w, h;
+    // --- Draw Weather ---
+    matrix.setFont(&TomThumb);
+    int16_t x1, y1;
+    uint16_t w, h;
 
-  // Top-left: Current Temp (Green)
-  matrix.setTextColor(matrix.color565(0, 255, 0));
-  matrix.setCursor(1, 5);
-  matrix.print(current_temp);
+    // Top-left: Current Temp (Green)
+    matrix.setTextColor(matrix.color565(0, 255, 0));
+    matrix.setCursor(1, 5);
+    matrix.print(current_temp);
 
-  // Top-right: Icon
-  drawWeatherIcon(weather_code);
+    // Top-right: Icon
+    drawWeatherIcon(weather_code);
 
-  // Bottom-left: Min Temp (Blue)
-  matrix.setTextColor(matrix.color565(0, 0, 255));
-  matrix.setCursor(1, matrix.height() - 1);
-  matrix.print(min_temp);
+    // Bottom-left: Min Temp (Blue)
+    matrix.setTextColor(matrix.color565(0, 0, 255));
+    matrix.setCursor(1, matrix.height() - 1);
+    matrix.print(min_temp);
 
-  // Bottom-right: Max Temp (Red)
-  matrix.setTextColor(matrix.color565(255, 0, 0));
-  matrix.getTextBounds(max_temp.c_str(), 0, 0, &x1, &y1, &w, &h);
-  matrix.setCursor(matrix.width() - w - 1, matrix.height() - 1);
-  matrix.print(max_temp);
+    // Bottom-right: Max Temp (Red)
+    matrix.setTextColor(matrix.color565(255, 0, 0));
+    matrix.getTextBounds(max_temp.c_str(), 0, 0, &x1, &y1, &w, &h);
+    matrix.setCursor(matrix.width() - w - 1, matrix.height() - 1);
+    matrix.print(max_temp);
 
-  matrix.setFont(nullptr); // Revert to default font
+    matrix.setFont(nullptr); // Revert to default font
 
-  // --- Draw Hands ---
-  float hourAngle = (hours % 12 + minutes / 60.0) * 30.0;
-  float minuteAngle = minutes * 6.0;
-  float secondAngle = seconds * 6.0;
-  drawHand(hourAngle, 16, matrix.color565(255, 0, 0));
-  drawHand(minuteAngle, 24, matrix.color565(0, 255, 0));
-  drawHand(secondAngle, 28, matrix.color565(0, 0, 255));
+    // --- Draw Hands ---
+    float hourAngle = (hours % 12 + minutes / 60.0) * 30.0;
+    float minuteAngle = minutes * 6.0;
+    float secondAngle = seconds * 6.0;
+    drawHand(hourAngle, 16, matrix.color565(255, 0, 0));
+    drawHand(minuteAngle, 24, matrix.color565(0, 255, 0));
+    drawHand(secondAngle, 28, matrix.color565(0, 0, 255));
 
-  matrix.show();
-  delay(1000);
+    matrix.show();
+  }
 }
