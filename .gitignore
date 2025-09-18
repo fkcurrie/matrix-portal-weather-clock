@@ -1,0 +1,10 @@
+# PlatformIO
+.pio/
+.vscode/
+
+# Secrets
+include/secrets.h
+
+# OS-specific
+.DS_Store
+Thumbs.db
