@@ -1,3 +1,18 @@
+/*
+ * Matrix Portal Weather Clock
+ *
+ * Copyright (c) 2025 Frank Currie <frank@sfle.ca>
+ *
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Frank Currie. You shall not disclose such Confidential Information
+ * and shall use it only in accordance with the terms of the license
+ * agreement you entered into with Frank Currie.
+ *
+ * Created: 2025-09-17
+ */
+
 #include <Arduino.h>
 #include <WiFiNINA.h>
 #include <WiFiUdp.h>
