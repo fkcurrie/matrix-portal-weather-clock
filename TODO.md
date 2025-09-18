@@ -1,8 +1,3 @@
-# Todo
+# Project TODO List
 
--   [x] Initialize a PlatformIO project for the Adafruit Matrix Portal M4.
--   [x] Configure `platformio.ini` with the required libraries.
--   [x] Write a `main.cpp` to fetch the time from an NTP server.
--   [ ] Add code to draw the analog clock face and hands.
--   [ ] Compile and upload the final firmware to the board.
--   [ ] Explore more advanced graphics and animations using C++.
+- [ ] **Automatic Geolocation:** Implement a feature to determine the device's latitude and longitude from its public IP address. This would allow the weather to be fetched for the device's current location automatically, instead of being hardcoded for Toronto. This will likely require a call to an IP geolocation API.

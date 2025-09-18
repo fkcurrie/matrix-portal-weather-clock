@@ -31,6 +31,10 @@ This project is built using PlatformIO.
     *   `pio run` to build the project.
     *   `pio run --target upload` to upload the compiled code to the board.
 
+## Testing
+
+Unit tests are located in the `test` directory and can be run with the `pio test` command. The tests cover the weather code conversion logic.
+
 ## Hardware Setup
 
 This configuration is confirmed to work for a 64x64 matrix as of Sept 17, 2025.
