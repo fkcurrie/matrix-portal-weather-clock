@@ -7,8 +7,8 @@
 
 ## Goal
 
-The main goal is to get the Matrix Portal M4 to display something cool on the LED screen. The project will start with a basic C++ "Hello World" example and then evolve to more complex visuals.
+The project is a feature-rich, stable analog clock and weather display. It has been optimized for long-term performance and includes a polished, animated boot sequence.
 
 ## History
 
-The project initially attempted to use CircuitPython but encountered persistent, unresolvable errors. The decision was made to pivot to a PlatformIO-based C++ toolchain for better performance and lower-level hardware control.
+The project initially attempted to use CircuitPython but was successfully pivoted to a PlatformIO-based C++ toolchain. All initial stability and performance issues have been resolved. The current C++ implementation is robust and feature-complete.
